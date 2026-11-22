@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>RANGO — Cantina Digital SESI/SENAI</title>
+
+  <!-- Preconnect para reduzir latência de DNS nas fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- display=swap: página renderiza imediatamente, fontes carregam depois -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"></noscript>
+
+<link rel="icon" href="assets/img/rangofav.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+  /* ── INDEX RESPONSIVO ── */
+
+  /* Previne scroll horizontal sem quebrar layout */
+  html { overflow-x: hidden; }
+  body { overflow-x: hidden; max-width: 100vw; }
+
+  /* Mobile (≤768px) */
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px !important; }
+    nav ul { display: none !important; }
+
+    .hero { padding: 100px 24px 60px !important; }
+    .hero-left { text-align: center; }
+    .hero h1 { font-size: clamp(2.6rem, 10vw, 4rem) !important; line-height: 1.08 !important; }
+    .hero-eyebrow { font-size: .65rem !important; }
+    .hero-description, .hero p { font-size: 1rem !important; line-height: 1.65 !important; }
+    .hero-actions, .hero-btns { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
+    .hero-actions a, .hero-btns a { width: 100% !important; max-width: 300px !important; text-align: center !important; }
+    .hero-right, .hero-img, .hero-visual, .hero-mockup { display: none !important; }
+
+    /* Desativa apenas os elementos decorativos pesados */
+    .hero-particles, .hero-grid-lines, .hero-bg-circle, .hero-gradient-orb { display: none !important; }
+
+    .section, section { padding: 60px 24px !important; }
+    .section-title { font-size: clamp(1.9rem, 7vw, 2.6rem) !important; }
+    .section-subtitle, .section-sub { font-size: .95rem !important; }
+
+    .features-grid, .steps-grid, .stats-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+    .cards-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+    .feature-card, .step-card, .stat-card { padding: 20px 16px !important; }
+
+    footer { padding: 48px 24px 32px !important; }
+    .footer-columns, .footer-grid { grid-template-columns: 1fr !important; gap: 24px !important; text-align: center; }
+  }
+
+  /* Tablet (769–1024px) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero h1 { font-size: clamp(3rem, 5.5vw, 4.5rem) !important; }
+    .features-grid, .cards-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .section { padding: 80px 40px !important; }
+  }
+  </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+
+  <div class="logo">
+    <img src="assets/img/rangologo.png" alt="" width="90">
+  </div>
+ <!-- <div class="logo">
+    RAN<span>GO</span>
+  </div> -->
+
+  <div class="online-indicator">
+    <span class="pulse-dot"></span>
+    Sistema Online
+  </div>
+
+  <ul>
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#funcionalidades">Funcionalidades</a></li>
+    <li><a href="#como-funciona">Como Funciona</a></li>
+    <li><a href="#objetivos">Objetivos</a></li>
+    <li><a href="rango-login.html" class="nav-cta">Acessar</a></li>
+  </ul>
+
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-bg-circle"></div>
+
+  <div class="hero-grid-lines"></div>
+
+  <div class="hero-particles"></div>
+
+  <div class="hero-gradient-orb"></div>
+
+  <div class="hero-left">
+
+    <div class="hero-eyebrow">
+      SESI · SENAI · Cantina Digital
+    </div>
+
+    <h1>
+      PEDIU,
+      <span class="accent">CHEGOU.</span>
+    </h1>
+
+    <p class="hero-desc">
+      RANGO é o sistema web integrado de autoatendimento que elimina filas,
+      agiliza pagamentos e moderniza a cantina escolar do SESI/SENAI.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#como-funciona" class="btn-primary">
+        Ver como funciona
+      </a>
+
+      <a href="#funcionalidades" class="btn-outline">
+        Funcionalidades
+      </a>
+    </div>
+
+  </div>
+
+  <div class="hero-right">
+
+    <div class="badge-float b1">
+      <span class="badge-num">0</span>
+      filas no intervalo
+    </div>
+
+    <div class="phone-mockup">
+
+      <div class="phone-notch"></div>
+
+      <div class="phone-status-bar">
+        <span>09:41</span>
+
+        <div class="status-icons">
+          <span>📶</span>
+          <span>📡</span>
+          <span>🔋</span>
+        </div>
+      </div>
+
+      <div class="phone-screen-header">
+        <span>RANGO</span>
+        <span class="cart-icon">🛒</span>
+      </div>
+
+      <div class="phone-body">
+
+        <div class="live-tag">
+          ● SISTEMA ONLINE
+        </div>
+
+        <div class="product-card-mini">
+
+          <span class="product-emoji">🥪</span>
+
+          <div class="product-info-mini">
+            <div class="product-name-mini">
+              Misto Quente
+            </div>
+
+            <div class="product-price-mini">
+              R$ 6,50
+            </div>
+          </div>
+
+          <div class="product-add-mini">+</div>
+
+        </div>
+
+        <div class="product-card-mini">
+
+          <span class="product-emoji">🥤</span>
+
+          <div class="product-info-mini">
+            <div class="product-name-mini">
+              Suco Natural
+            </div>
+
+            <div class="product-price-mini">
+              R$ 5,00
+            </div>
+          </div>
+
+          <div class="product-add-mini">+</div>
+
+        </div>
+
+        <div class="product-card-mini">
+
+          <span class="product-emoji">🍫</span>
+
+          <div class="product-info-mini">
+            <div class="product-name-mini">
+              Chocolate
+            </div>
+
+            <div class="product-price-mini">
+              R$ 3,50
+            </div>
+          </div>
+
+          <div class="product-add-mini">+</div>
+
+        </div>
+
+        <div class="phone-footer">
+
+          <div class="phone-footer-total">
+            Total:
+            <strong>R$ 15,00</strong>
+          </div>
+
+          <div class="phone-order-btn">
+            PEDIR AGORA
+          </div>
+
+        </div>
+
+        <div class="payment-toast">
+          PIX aprovado ✓
+        </div>
+
+      </div>
+    </div>
+
+    <div class="badge-float b2">
+      <span class="badge-num">3x</span>
+      mais ágil no atendimento
+    </div>
+
+  </div>
+
+</section>
+
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-band">
+
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Responsivo</div>
+    </div>
+
+    <div class="stat-divider"></div>
+
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Filas no intervalo</div>
+    </div>
+
+    <div class="stat-divider"></div>
+
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Controle de estoque</div>
+    </div>
+
+    <div class="stat-divider"></div>
+
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Formas de pagamento</div>
+    </div>
+
+  </div>
+
+<section id="problema" class="problema">
+
+    <div class="problema-topo">
+        <span>O Problema</span>
+
+        <h2>
+            A CANTINA<br />
+            TRAVOU NO<br />
+            PASSADO
+        </h2>
+
+        <p>
+            O modelo tradicional de atendimento gera gargalos nos horários de intervalo,
+            prejudica alunos, sobrecarrega a equipe e dificulta o controle administrativo.
+        </p>
+    </div>
+
+    <div class="problema-cards">
+
+        <div class="card-problema">
+            <div class="icone">⏳</div>
+
+            <h3>Filas e Lentidão</h3>
+
+            <p>
+                Nos horários de intervalo, a demanda concentrada gera filas,
+                atrasos e frustração nos alunos.
+            </p>
+        </div>
+
+        <div class="card-problema">
+            <div class="icone">💳</div>
+
+            <h3>Pagamentos Limitados</h3>
+
+            <p>
+                O modelo tradicional restringe as formas de pagamento
+                e torna o atendimento mais lento.
+            </p>
+        </div>
+
+        <div class="card-problema">
+            <div class="icone">📋</div>
+
+            <h3>Gestão Desorganizada</h3>
+
+            <p>
+                Controle manual e ausência de relatórios dificultam
+                uma administração eficiente.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+  <!-- FUNCIONALIDADES -->
+  <section id="funcionalidades" class="features-section">
+
+    <div class="features-header" data-reveal>
+
+
+      <div class="problema-topo">
+ <span>Funcionalidades</span>
+      <h2>
+        TUDO QUE<br />
+        A CANTINA<br />
+        PRECISA
+      </h2>
+      </div>
+
+
+      <p class="section-sub">
+        Plataforma completa para alunos,
+        atendentes e administradores.
+      </p>
+
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon">🔐</div>
+        <div class="feature-title">Login Seguro</div>
+        <div class="feature-desc">
+          Login institucional para alunos cadastrades.
+        </div>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">Catálogo Digital</div>
+        <div class="feature-desc">
+          Produtos organizados com fotos e preços.
+        </div>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon">🛒</div>
+        <div class="feature-title">Carrinho Inteligente</div>
+        <div class="feature-desc">
+          Adicione, remova e revise pedidos rapidamente.
+        </div>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon">💳</div>
+        <div class="feature-title">Pagamento Digital</div>
+        <div class="feature-desc">
+          PIX, cartão e carteiras digitais integradas.
+        </div>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Pedidos em Tempo Real</div>
+        <div class="feature-desc">
+          Equipe recebe pedidos instantaneamente.
+        </div>
+      </div>
+
+      <div class="feature-card" data-reveal>
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Relatórios</div>
+        <div class="feature-desc">
+          Gestão completa de vendas e estoque.
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- COMO FUNCIONA -->
+<section id="como-funciona" class="how-section">
+
+  <div class="how-container">
+
+    <!--<div class="section-eyebrow">
+      Como Funciona
+    </div>-->
+
+   <!-- <h2 class="section-title">
+      DO PEDIDO<br />
+      AO RANGO<br />
+      EM SEGUNDOS
+    </h2>-->
+      <div class="problema-topo">
+ <span>Como Funciona</span>
+      <h2>
+      DO PEDIDO<br />
+      AO RANGO<br />
+      EM SEGUNDOS
+      </h2>
+      </div>
+    <div class="how-steps">
+
+      <div class="how-step">
+        <div class="step-number">01</div>
+
+        <div>
+          <h3>Faça login</h3>
+
+          <p>
+            Entre no sistema usando seu cadastro institucional.
+          </p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="step-number">02</div>
+
+        <div>
+          <h3>Escolha seus produtos</h3>
+
+          <p>
+            Navegue pelo cardápio digital e adicione itens ao carrinho.
+          </p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="step-number">03</div>
+
+        <div>
+          <h3>Realize o pagamento</h3>
+
+          <p>
+            Utilize PIX, cartão ou carteira digital.
+          </p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <div class="step-number">04</div>
+
+        <div>
+          <h3>Retire seu pedido</h3>
+
+          <p>
+            Receba a confirmação e retire sem filas.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- OBJETIVOS -->
+<section id="objetivos" class="objectives-section">
+
+  <div class="objectives-container">
+
+  <!--  <div class="section-eyebrow">
+      Objetivos
+    </div>
+
+    <h2 class="section-title">
+      O QUE O<br />
+      RANGO<br />
+      RESOLVE
+    </h2>-->
+      <div class="problema-topo">
+ <span>Objetivos</span>
+      <h2>
+      O QUE O<br />
+      RANGO<br />
+      RESOLVE
+      </h2>
+      </div>
+    <div class="objectives-grid">
+
+      <div class="objective-card">
+        <span>⚡</span>
+        <h3>Reduzir filas</h3>
+
+        <p>
+          Diminuir o tempo de espera no intervalo escolar.
+        </p>
+      </div>
+
+      <div class="objective-card">
+        <span>📱</span>
+        <h3>Digitalizar pedidos</h3>
+
+        <p>
+          Modernizar o atendimento da cantina.
+        </p>
+      </div>
+
+      <div class="objective-card">
+        <span>📊</span>
+        <h3>Melhorar gestão</h3>
+
+        <p>
+          Organizar estoque, vendas e pedidos em tempo real.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+  <!-- CTA -->
+  <section id="contato" class="cta-section">
+
+    <h2 class="cta-title">
+      PRONTO PARA<br />
+      RANGAR?
+    </h2>
+
+    <p class="cta-sub">
+      Acesse pelo celular, computador
+      ou totem da cantina.
+    </p>
+
+    <div class="cta-buttons">
+
+      <a href="rango-login.html" class="btn-dark" style="background:#ffffff;color:#ff5500;border:3px solid #ff5500;font-weight:800">
+        Acessar como Aluno
+      </a>
+
+      <a href="rango-login.html" class="btn-white" onclick="setTimeout(()=>document.getElementById('role-admin')?.click(),300)">
+        Painel Administrativo
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="footer-logo">
+
+
+        <img src="assets/img/rangologo.png" alt="" width="90">
+
+    </div>
+
+    <div class="footer-text">
+      Sistema web de autoatendimento
+      para cantina escolar.<br />
+      SESI · SENAI · Projeto de Inovação
+    </div>
+
+    <div class="footer-tags">
+      <span class="footer-tag">SESI</span>
+      <span class="footer-tag">SENAI</span>
+      <span class="footer-tag">EdTech</span>
+    </div>
+
+  </footer>
+
+  <!-- JS -->
+  <script src="assets/js/index-script.js" defer></script>
+
+</body>
+
+</html>
+```

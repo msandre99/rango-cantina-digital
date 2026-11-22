@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RANGO — Entrar</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/img/rangofav.png" type="image/png">
+<style>
+  :root {
+    --orange:   #ff7a00;
+    --orange2:  #ff5500;
+    --yellow:   #ffd54a;
+    --bg:       #070707;
+    --bg2:      #0e0f11;
+    --surface:  #141519;
+    --surface2: #1b1d22;
+    --white:    #f5f7fa;
+    --muted:    #8c919b;
+    --green:    #58d68d;
+    --red:      #ff4d4d;
+    --border:   rgba(255,255,255,.08);
+    --gradient: linear-gradient(135deg,#ff3600,#ff5500);
+    --shadow:   0 10px 40px rgba(0,0,0,.55);
+  }
+
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { height:100%; }
+
+  body {
+    font-family:'DM Sans',sans-serif;
+    background: radial-gradient(circle at top right, rgba(255,122,0,.1), transparent 30%),
+                radial-gradient(circle at bottom left, rgba(255,85,0,.07), transparent 30%),
+                var(--bg);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    transition: background .35s ease, color .35s ease;
+  }
+
+  /* noise */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='0.03' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events:none; z-index:0;
+  }
+
+  /* ── LIGHT MODE ── */
+  body.light-mode {
+    --bg: #ffffff; --bg2: #f7f6f3; --surface: #f0ede8; --surface2: #e8e4dc;
+    --white: #1a1a14; --muted: #6b6660; --border: rgba(0,0,0,.1);
+    background: radial-gradient(circle at top right, rgba(255,122,0,.07), transparent 30%),
+                radial-gradient(circle at bottom left, rgba(255,85,0,.04), transparent 30%),
+                #ffffff;
+    color: #1a1a14;
+  }
+  body.light-mode::before { display:none; }
+  body.light-mode .login-left { background:#0a0a08; }
+  body.light-mode .login-right { background:#ffffff; }
+  body.light-mode .login-card h2 { color:#1a1a14; }
+  body.light-mode .login-card > p { color:#6b6660; }
+  body.light-mode .toggle-role { background:var(--surface); border-color:rgba(0,0,0,.1); }
+  body.light-mode .toggle-role button { color:#6b6660; }
+  body.light-mode .toggle-role button.active { color:#fff; }
+  body.light-mode .form-label { color:#6b6660; }
+  body.light-mode .input-wrap input {
+    background:var(--surface); border-color:rgba(0,0,0,.13); color:#1a1a14;
+  }
+  body.light-mode .input-wrap input::placeholder { color:#9a9590; }
+  body.light-mode .input-wrap input:focus { background:#fff; }
+  body.light-mode .input-wrap svg { color:#9a9590; }
+  body.light-mode .forgot a { color:var(--orange); }
+  body.light-mode .error-msg { background:#fff3f3; border-color:#ffb3b3; color:#c0392b; }
+
+  /* ── MODAL REDEFINIR SENHA — MODO CLARO ── */
+  body.light-mode #modal-reset > div {
+    background: #ffffff !important;
+    border-color: rgba(0,0,0,.1) !important;
+    box-shadow: 0 24px 60px rgba(0,0,0,.15) !important;
+  }
+  /* Título */
+  body.light-mode #modal-reset h3 { color: #1a1a14 !important; }
+  /* Botão fechar */
+  body.light-mode #modal-reset > div > div:first-child button { color: #9a9590 !important; }
+  /* Textos descritivos */
+  body.light-mode #modal-reset p { color: #6b6660 !important; }
+  /* Labels */
+  body.light-mode #modal-reset label { color: #6b6660 !important; }
+  /* Wrappers dos inputs */
+  body.light-mode #modal-reset div[style*="rgba(255,255,255,.06)"] {
+    background: rgba(0,0,0,.04) !important;
+    border-color: rgba(0,0,0,.12) !important;
+  }
+  /* Texto dos inputs */
+  body.light-mode #modal-reset input { color: #1a1a14 !important; }
+  /* Placeholder dos inputs */
+  body.light-mode #modal-reset input::placeholder { color: #9a9590 !important; }
+  /* Ícones SVG dos inputs */
+  body.light-mode #modal-reset svg { stroke: rgba(0,0,0,.35) !important; }
+  /* Botão "← Usar outra matrícula" */
+  body.light-mode #modal-reset button[style*="rgba(255,255,255,.4)"] { color: #9a9590 !important; }
+  /* Título de sucesso */
+  body.light-mode #modal-reset h4 { color: #2e7d52 !important; }
+
+  /* ── LAYOUT ── */
+  .login-left {
+    width: 46%;
+    background: var(--bg2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 52px;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .login-left::before {
+    content:'';
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;
+  }
+  .login-left::after {
+    content:'';
+    position:absolute;
+    width:600px; height:600px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,122,0,.16) 0%, transparent 70%);
+    bottom:-200px; left:-100px;
+    pointer-events:none; filter:blur(60px);
+  }
+
+  .login-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── LOGO ── */
+  .logo-mark {
+    display:flex; align-items:center; gap:12px;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:2.2rem; letter-spacing:5px;
+    color:var(--orange);
+    text-shadow:0 0 25px rgba(255,122,0,.45);
+    position:relative; z-index:2;
+        width: 140px;
+    height: 70px;
+ 
+  }
+  .logo-mark img{
+    width: 120%;
+  }
+  .logo-icon {
+    width:42px; height:42px;
+    background:var(--gradient);
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem;
+    box-shadow:0 8px 24px rgba(255,122,0,.4);
+  }
+
+  /* ── LEFT HERO ── */
+  .login-hero { position:relative; z-index:2; }
+  .login-hero h1 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(3.5rem, 6vw, 7rem);
+    line-height:.9; letter-spacing:3px;
+    margin-bottom:20px;
+    text-shadow:0 0 50px rgba(255,122,0,.2);
+    
+  }
+  .login-hero h1 .accent {
+    display:block;
+    background:var(--gradient);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 25px rgba(255,122,0,.5));
+  }
+  .login-hero h1 .accent2 {
+    display:block;
+    background:white;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 25px rgba(255,122,0,.5));
+  }
+
+  .login-eyebrow {
+    font-family:'Syne',sans-serif;
+    font-size:.7rem; letter-spacing:4px; text-transform:uppercase;
+    color:var(--orange); margin-bottom:20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .login-eyebrow::before { content:''; width:36px; height:2px; background:var(--gradient); display:block; }
+
+  .login-features { list-style:none; display:flex; flex-direction:column; gap:14px; margin-top:8px; }
+  .login-features li {
+    display:flex; align-items:center; gap:12px;
+    color:rgba(255,255,255,.55);
+    font-size:.9rem; font-weight:300;
+  }
+  .login-features li::before {
+    content:''; width:6px; height:6px;
+    flex-shrink:0;
+    background:var(--gradient);
+    border-radius:1px;
+    box-shadow:0 0 10px rgba(255,122,0,.5);
+  }
+
+  .login-footer {
+    position:relative; z-index:2;
+    font-size:.75rem;
+    color:rgba(255,255,255,.25);
+    letter-spacing:.5px;
+  }
+
+  /* ── CARD ── */
+  .login-card { width:100%; max-width:440px; }
+  .login-card .logo-mark { margin-bottom:44px; color:var(--white); text-shadow:none; }
+
+  .login-card h2 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:3.2rem; letter-spacing:3px;
+    color:var(--white); line-height:1; margin-bottom:6px;
+  }
+  .login-card > p {
+    color:var(--muted);
+    margin-bottom:36px; font-size:.88rem; font-weight:300; line-height:1.6;
+  }
+
+  /* ── ROLE TOGGLE ── */
+  .toggle-role {
+    display:flex;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:4px; margin-bottom:28px; gap:4px;
+  }
+  .toggle-role button {
+    flex:1; border:none; background:transparent;
+    padding:10px; border-radius:10px; cursor:pointer;
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size:.72rem; letter-spacing:2px; text-transform:uppercase;
+    color:var(--muted); transition:all .25s;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .toggle-role button.active {
+    background:var(--gradient); color:#fff;
+    box-shadow:0 6px 20px rgba(255,122,0,.35);
+  }
+
+  /* ── FORM ── */
+  .form-group { margin-bottom:18px; }
+  .form-label {
+    display:block;
+    font-family:'Syne',sans-serif;
+    font-size:.62rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+    color:var(--muted); margin-bottom:8px;
+  }
+  .input-wrap { position:relative; display:flex; align-items:center; }
+  .input-wrap svg { position:absolute; left:14px; color:var(--muted); pointer-events:none; }
+  .input-wrap input {
+    width:100%; padding:14px 14px 14px 44px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    font-family:'DM Sans',sans-serif; font-size:.9rem;
+    outline:none; transition:all .25s;
+    background:var(--surface); color:var(--white);
+  }
+  .input-wrap input::placeholder { color:var(--muted); }
+  .input-wrap input:focus {
+    border-color:var(--orange);
+    background:var(--surface2);
+    box-shadow:0 0 0 3px rgba(255,122,0,.12);
+  }
+  .eye-toggle { position:absolute; right:14px; background:none; border:none; cursor:pointer; color:var(--muted); font-size:1rem; }
+
+  .forgot { text-align:right; margin-bottom:22px; }
+  .forgot a {
+    color:var(--orange);
+    font-family:'Syne',sans-serif; font-size:.68rem; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase; text-decoration:none;
+  }
+  .forgot a:hover { text-decoration:underline; }
+
+  /* ── ERROR ── */
+  .error-msg {
+    background:rgba(255,77,77,.1);
+    border:1px solid rgba(255,77,77,.3);
+    border-radius:12px;
+    padding:11px 16px;
+    font-family:'Syne',sans-serif;
+    font-size:.72rem; font-weight:700; letter-spacing:1px;
+    color:var(--red);
+    margin-bottom:18px;
+    display:none;
+    align-items:center; gap:8px;
+  }
+  .error-msg.show { display:flex; animation:shake .3s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+
+  /* ── BUTTON ── */
+  .btn-primary {
+    width:100%; padding:16px;
+    background:var(--gradient);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size:.78rem; letter-spacing:2.5px; text-transform:uppercase;
+    cursor:pointer; transition:all .3s;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    box-shadow:0 15px 35px rgba(255,122,0,.25);
+    position:relative; overflow:hidden;
+  }
+  .btn-primary::before {
+    content:'';
+    position:absolute; top:0; left:-120%; width:70%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+    transform:skewX(-25deg); transition:.8s;
+  }
+  .btn-primary:hover::before { left:150%; }
+  .btn-primary:hover { transform:translateY(-4px); box-shadow:0 22px 50px rgba(255,122,0,.4); }
+  .btn-primary:active { transform:translateY(-1px); }
+  .btn-primary.loading { opacity:.7; pointer-events:none; }
+
+  /* loading spinner */
+  .spinner {
+    width:16px; height:16px;
+    border:2px solid rgba(255,255,255,.3);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  /* ── REGISTER LINK ── */
+  .register-link {
+    text-align:center; margin-top:20px;
+    font-size:.8rem; color:var(--muted); font-weight:300;
+  }
+  .register-link a {
+    color:var(--orange); font-weight:700; text-decoration:none;
+    font-family:'Syne',sans-serif; font-size:.72rem; letter-spacing:1px;
+  }
+  .register-link a:hover { text-decoration:underline; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-float {
+    position: fixed;
+    top: 18px; right: 18px;
+    z-index: 100;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size:.65rem; letter-spacing:2px; text-transform:uppercase;
+    color: var(--muted);
+    transition: all .25s;
+    backdrop-filter: blur(12px);
+  }
+  .theme-float:hover { border-color:rgba(255,122,0,.4); color:var(--orange); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:768px) {
+    .login-left { display:none; }
+    .login-right { padding:32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Theme toggle -->
+<button class="theme-float" id="theme-btn" onclick="toggleTheme()">
+  <span id="theme-icon">☀️</span>
+  <span id="theme-label">Claro</span>
+</button>
+
+<!-- LEFT: brand panel -->
+<div class="login-left">
+  <div class="logo-mark">
+    <div class="logo-icon"></div>
+ <img src="assets/img/rangologo.png" alt="" width="90">
+  </div>
+
+  <div class="login-hero">
+    <div class="login-eyebrow">SESI · SENAI · Cantina Digital</div>
+    <h1>
+     <!-- PEDIU,-->
+ <span class="accent2">PEDIU,</span>
+      <span class="accent">CHEGOU.</span>
+    </h1>
+    <ul class="login-features">
+      <li>Peça seu lanche em 3 cliques</li>
+      <li>Ganhe Rango Points em cada compra</li>
+      <li>Histórico de pedidos em tempo real</li>
+      <li>Sem filas, sem espera</li>
+    </ul>
+  </div>
+
+  <p class="login-footer">© 2025 SENAI/SESI — Sistema de Gestão de Cantina</p>
+</div>
+
+<!-- RIGHT: form panel -->
+<div class="login-right">
+  <div class="login-card">
+
+  <div class="logo-mark">
+    <div class="logo-icon"></div>
+ <img src="assets/img/rangologo.png" alt="" width="90">
+  </div>
+
+    <h2>Acessar Conta</h2>
+    <p>Entre com suas credenciais institucionais para continuar.</p>
+
+    <!-- Role switch -->
+    <div class="toggle-role">
+      <button class="active" id="role-aluno" onclick="setRole('aluno')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Aluno
+      </button>
+      <button id="role-admin" onclick="setRole('admin')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 1 4.93 19.07"/></svg>
+        Admin
+      </button>
+      <button id="role-totem" onclick="setRole('totem')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+        Totem
+      </button>
+    </div>
+
+    <!-- Dica Totem -->
+    <div id="totem-dica" style="display:none;background:rgba(255,122,0,.08);border:1px solid rgba(255,122,0,.2);border-radius:10px;padding:10px 14px;font-size:.78rem;color:rgba(255,200,100,.9);margin-bottom:8px">
+      🖥️ Use a matrícula de <strong>admin</strong> ou <strong>atendente</strong> para liberar o totem.
+    </div>
+    <!-- Error message -->
+    <div class="error-msg" id="error-msg">
+      <span>⚠️</span>
+      <span id="error-text">Credenciais inválidas.</span>
+    </div>
+
+    <!-- Matricula -->
+    <div class="form-group">
+      <label class="form-label">Matrícula</label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <input type="text" id="login-matricula" placeholder="Sua matrícula SENAI" value="" autocomplete="username">  <!-- 12345 tava aqui-->
+      </div>
+    </div>
+
+    <!-- Senha -->
+    <div class="form-group">
+      <label class="form-label">Senha de Acesso</label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="login-senha" placeholder="Mínimo 8 caracteres" value="" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter') doLogin()">  <!-- 12345678 tava aqui-->
+        <button class="eye-toggle" onclick="togglePass()" title="Mostrar/ocultar senha">👁</button>
+      </div>
+    </div>
+
+    <div class="forgot"><a href="#" onclick="event.preventDefault();abrirResetSenha()">Esqueceu a senha?</a></div>
+
+    <button class="btn-primary" id="login-btn" onclick="doLogin()">
+      <span id="btn-text">ENTRAR NO SISTEMA</span>
+      <svg id="btn-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div class="spinner" id="btn-spinner" style="display:none"></div>
+    </button>
+
+    <div class="register-link">
+      Não tem conta? <a href="#" onclick="openRegister()">Criar conta</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL DE CADASTRO DE ALUNO
+══════════════════════════════════════════ -->
+<div id="modal-cadastro" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#161718;border:1px solid rgba(255,255,255,.08);border-radius:20px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;padding:32px;position:relative">
+
+    <button onclick="closeRegister()" style="position:absolute;top:16px;right:16px;background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;width:32px;height:32px;color:rgba(255,255,255,.5);cursor:pointer;font-size:1rem">✕</button>
+
+    <div style="font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--orange);margin-bottom:6px">Novo Aluno</div>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:4px">CRIAR CONTA</h3>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:24px">Preencha seus dados para acessar a cantina digital.</p>
+
+    <!-- Erro -->
+    <div id="reg-error" style="display:none;background:rgba(255,77,77,.08);border:1px solid rgba(255,77,77,.25);border-radius:8px;padding:10px 14px;font-size:.8rem;color:#ff4d4d;margin-bottom:16px"></div>
+    <!-- Sucesso -->
+    <div id="reg-success" style="display:none;background:rgba(88,214,141,.08);border:1px solid rgba(88,214,141,.25);border-radius:8px;padding:10px 14px;font-size:.8rem;color:#58d68d;margin-bottom:16px"></div>
+
+    <!-- Nome -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Nome Completo *</label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input type="text" id="reg-nome" placeholder="Seu nome completo" maxlength="150">
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">E-mail</label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <input type="email" id="reg-email" placeholder="seu@email.com" maxlength="150">
+      </div>
+    </div>
+
+    <!-- Matrícula -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Matrícula * <span style="color:rgba(255,255,255,.3);font-size:.58rem">(10 dígitos)</span></label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <input type="text" id="reg-matricula" placeholder="1234567890" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+    </div>
+
+    <!-- Telefone -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Telefone</label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.06 13.07a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <input type="tel" id="reg-telefone" placeholder="(11) 99999-9999" maxlength="20">
+      </div>
+    </div>
+
+    <!-- CPF -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">
+        CPF <span style="color:rgba(255,255,255,.3);font-size:.58rem">(necessário para pagamento PIX)</span>
+      </label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <input type="text" id="reg-cpf" placeholder="000.000.000-00" maxlength="14"
+          oninput="formatarCPF(this)">
+      </div>
+    </div>
+
+    <!-- Senha -->
+    <div style="margin-bottom:14px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Senha * <span style="color:rgba(255,255,255,.3);font-size:.58rem">(mín. 8 caracteres)</span></label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="reg-senha" placeholder="Mínimo 8 caracteres" maxlength="100">
+        <button class="eye-toggle" onclick="togglePassReg()" type="button">👁</button>
+      </div>
+    </div>
+
+    <!-- Confirmar Senha -->
+    <div style="margin-bottom:24px">
+      <label style="display:block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Confirmar Senha *</label>
+      <div class="input-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="reg-senha2" placeholder="Repita a senha" maxlength="100" onkeydown="if(event.key==='Enter')doRegister()">
+      </div>
+    </div>
+
+    <!-- Termos de Uso -->
+    <div style="margin-bottom:20px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;display:flex;align-items:flex-start;gap:12px">
+      <input type="checkbox" id="reg-termos"
+        style="width:18px;height:18px;min-width:18px;margin-top:2px;accent-color:var(--orange);cursor:pointer">
+      <label for="reg-termos"
+        style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.55;cursor:pointer;font-family:'DM Sans',sans-serif">
+        Li e concordo com os
+        <a href="assets/docs/RANGO_Politica_Privacidade_Termos_de_UsoX.pdf" download="assets/docs/RANGO_Politica_Privacidade_Termos_de_UsoX.pdf"
+          style="color:var(--orange);font-weight:700;text-decoration:underline;text-underline-offset:2px"
+          onclick="event.stopPropagation()">Termos de Política de Privacidade</a>
+        da plataforma Rango, incluindo o tratamento de dados pessoais (CPF) conforme a LGPD.
+      </label>
+    </div>
+
+    <button onclick="doRegister()" id="reg-btn"
+      style="width:100%;padding:15px;background:linear-gradient(135deg,#ff7a00,#ff5500);color:#fff;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px">
+      <span id="reg-btn-text">CRIAR CONTA</span>
+    </button>
+
+    <p style="text-align:center;font-size:.76rem;color:var(--muted);margin-top:16px">
+      Já tem conta? <a href="#" onclick="closeRegister()" style="color:var(--orange);text-decoration:none;font-weight:600">Fazer login</a>
+    </p>
+  </div>
+</div>
+
+
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/login.js"></script>
+
+
+<!-- MODAL RESET SENHA -->
+<div id="modal-reset" style="
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,.7); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center;
+">
+  <div style="
+    background:var(--bg2,#111); border:1px solid rgba(255,255,255,.1);
+    border-radius:20px; padding:32px 28px; width:90%; max-width:400px;
+    box-shadow:0 24px 60px rgba(0,0,0,.5);
+  ">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:1px;color:#fff;margin:0" >
+        🔑 REDEFINIR SENHA
+      </h3>
+      <button onclick="fecharResetSenha()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:1.3rem;cursor:pointer;line-height:1">✕</button>
+    </div>
+
+    <!-- Etapa 1: informar matrícula -->
+    <div id="reset-step-1">
+      <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:20px;line-height:1.6">
+        Informe sua matrícula para redefinir a senha.
+      </p>
+      <label style="font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);display:block;margin-bottom:6px">Matrícula</label>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:0 14px;margin-bottom:16px">
+        <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input type="text" id="reset-matricula" placeholder="Sua matrícula SENAI" maxlength="10"
+          oninput="this.value=this.value.replace(/\D/g,'')"
+          style="flex:1;background:none;border:none;outline:none;color:#fff;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:.9rem">
+      </div>
+      <div id="reset-erro-1" style="display:none;background:rgba(255,77,77,.1);color:#ff6b6b;border:1px solid rgba(255,77,77,.2);border-radius:8px;padding:8px 12px;font-size:.8rem;margin-bottom:14px"></div>
+      <button onclick="verificarMatricula()"
+        style="width:100%;background:linear-gradient(135deg,var(--orange,#ff7a00),#ff5500);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;cursor:pointer">
+        CONTINUAR →
+      </button>
+    </div>
+
+    <!-- Etapa 2: nova senha -->
+    <div id="reset-step-2" style="display:none">
+      <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:20px;line-height:1.6">
+        Matrícula <strong id="reset-mat-display" style="color:var(--orange,#ff7a00)"></strong> encontrada.<br>
+        Crie uma nova senha de no mínimo 8 caracteres.
+      </p>
+      <label style="font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);display:block;margin-bottom:6px">Nova Senha</label>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:0 14px;margin-bottom:12px">
+        <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="reset-nova-senha" placeholder="Mínimo 8 caracteres"
+          style="flex:1;background:none;border:none;outline:none;color:#fff;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:.9rem">
+      </div>
+      <label style="font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);display:block;margin-bottom:6px">Confirmar Senha</label>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:0 14px;margin-bottom:16px">
+        <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input type="password" id="reset-conf-senha" placeholder="Repita a senha"
+          style="flex:1;background:none;border:none;outline:none;color:#fff;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:.9rem">
+      </div>
+      <div id="reset-erro-2" style="display:none;background:rgba(255,77,77,.1);color:#ff6b6b;border:1px solid rgba(255,77,77,.2);border-radius:8px;padding:8px 12px;font-size:.8rem;margin-bottom:14px"></div>
+      <button onclick="confirmarResetSenha()"
+        style="width:100%;background:linear-gradient(135deg,var(--orange,#ff7a00),#ff5500);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;cursor:pointer">
+        SALVAR NOVA SENHA ✓
+      </button>
+      <button onclick="document.getElementById('reset-step-1').style.display='';document.getElementById('reset-step-2').style.display='none'"
+        style="width:100%;background:none;border:none;color:rgba(255,255,255,.4);font-size:.78rem;cursor:pointer;margin-top:10px;font-family:'DM Sans',sans-serif">
+        ← Usar outra matrícula
+      </button>
+    </div>
+
+    <!-- Etapa 3: sucesso -->
+    <div id="reset-step-3" style="display:none;text-align:center">
+      <div style="font-size:3rem;margin-bottom:12px">✅</div>
+      <h4 style="font-family:'Syne',sans-serif;color:#58d68d;margin-bottom:8px">Senha alterada!</h4>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:20px">Sua nova senha foi salva. Faça login com ela agora.</p>
+      <button onclick="fecharResetSenha()"
+        style="background:linear-gradient(135deg,var(--orange,#ff7a00),#ff5500);color:#fff;border:none;border-radius:12px;padding:12px 32px;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;cursor:pointer">
+        IR PARA O LOGIN
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
