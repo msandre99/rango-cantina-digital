@@ -30,7 +30,7 @@ O sistema é dividido em três partes que trabalham de forma integrada: o **Tote
 
 Além da versão web, o RANGO foi pensado para funcionar em um totem de autoatendimento instalado no espaço da cantina. A proposta é que o aluno consiga realizar o pedido diretamente no equipamento, sem precisar aguardar o atendimento no balcão. A interface foi desenvolvida para permitir a navegação pelo catálogo, a seleção dos produtos, a conferência do carrinho e a finalização do pedido.
 
-O equipamento físico representa a parte presencial do projeto e conecta a experiência de uso do sistema à rotina da cantina. A imagem abaixo ficará reservada para apresentar o totem montado.
+O equipamento físico representa a parte presencial do projeto e conecta a experiência de uso do sistema à rotina da cantina. 
 
 <p align="center">
   <img src="docs/img/RangoTotemFisico.png" alt="Foto do totem físico do RANGO" width="400">
