@@ -35,17 +35,24 @@ O equipamento físico representa a parte presencial do projeto e conecta a exper
 <p align="center">
   <img src="docs/img/RangoTotemFisico.png" alt="Foto do totem físico do RANGO" width="400">
 </p>
-<p align="center"><em>Totem físico desenvolvido para o sistema RANGO. Substitua este espaço pela foto do equipamento.</em></p>
+<p align="center"><em>Totem físico desenvolvido para o sistema RANGO.</em></p>
 
 ## Acesse o sistema
 
-A versão online do RANGO está disponível em: [https://rango.page.gd/](https://rango.page.gd/). Pelo site, é possível acessar a plataforma e conhecer sua interface.
+A versão online do RANGO está disponível em: 
+<p align="left">
+  <img src="docs/img/rangofav.png" alt="Foto do totem físico do RANGO" width="20">
+  [https://rango.page.gd/](https://rango.page.gd/).
+</p>
+Pelo site, é possível acessar a plataforma e conhecer sua interface.
 
 ## Telas do sistema
 
 As telas a seguir mostram as principais áreas do RANGO e como cada uma atende às necessidades dos alunos e da equipe da cantina.
 
 ### Totem de autoatendimento
+
+
 
 <p align="center">
   <img src="docs/img/totem.png" alt="Tela do totem de autoatendimento" width="75%">
